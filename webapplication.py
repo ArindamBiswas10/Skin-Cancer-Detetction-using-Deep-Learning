@@ -22,8 +22,8 @@ def detect_skin_cancer(image):
 
 # Streamlit web app
 st.title('Skin Cancer Detection App')
+st.write('Welcome to the Skin Cancer Detection App. Upload an image and we will analyze it for potential skin cancer.')
 
-st.write('Upload an image for skin cancer detection.')
 uploaded_image = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
 
 if uploaded_image is not None:
@@ -32,7 +32,12 @@ if uploaded_image is not None:
 
     if st.button('Detect Skin Cancer'):
         result = detect_skin_cancer(image)
+        confidence = result * 100  # Convert result to percentage
+
         if result > 0.5:
-            st.error(f'Prediction: Melanoma (Confidence: {result:.2f})')
+            st.error(f'Prediction: Melanoma (Confidence: {confidence:.2f}%)')
+            st.write("It's recommended to consult a dermatologist for further evaluation.")
         else:
-            st.success(f'Prediction: Non-Melanoma (Confidence: {1 - result:.2f})')
+            st.success(f'Prediction: Non-Melanoma (Confidence: {100 - confidence:.2f}%)')
+            st.write("No immediate concerns detected. Regular skin checks are advised for preventive care.")
+
